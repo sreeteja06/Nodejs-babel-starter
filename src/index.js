@@ -7,8 +7,9 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import test1Router from './Routes/Test1/Test1.route';
+import { connectDB } from './Core/Mongodb';
 
-dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -26,6 +27,10 @@ app.use('/test', test1Router);
 
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT, () => {
-  console.log(`Started up at port http://localhost:${PORT}/`);
-});
+(async () => {
+  await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`Started up at port http://localhost:${PORT}/`);
+  });
+})();
